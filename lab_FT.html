@@ -1,31 +1,89 @@
-<!DOCTYPE html>
 <html>
-<head>
-    <title>Dynamic Table</title>
-	<style>
-		table {
-    		border-collapse: collapse;
-    		border: 1px solid black;
+	<font size="8" color="green">Final test lab</font><br><br>
+	Number of rows: <input type="text" id="t1" /><br><br>
+	Number of cols: <input type="text" id="t2" /><br><br>
+	
+	<button id="b1" onclick="generateTable()">Generate Table</button><br><br>
+	
+	<button id="b2" onclick="addColumn()">Add Column</button>
+	
+	<button id="b3" onclick="addRow()">Add Row</button>
+		
+	<script language="javascript">
+
+		var numRows = 0;
+		var numCols = 0;
+	
+		function generateTable() {
+			numRows = parseInt(document.getElementById("t1").value);
+			numCols = parseInt(document.getElementById("t2").value);
+	
+			// Input Validation
+			if (!(parseInt(numRows) > 0 && parseInt(numCols) > 0)) {
+				alert("Please provide valid input for rows and columns.");
+				return;
+			}
+	
+			// Storing buttons temporarily
+			const addColButton = document.getElementById("b2");
+			const addRowButton = document.getElementById("b3");
+	
+			// To generate table
+			var table = document.createElement("table");
+			table.setAttribute("id", "dynamicTable");
+			table.style.borderCollapse = "collapse";
+			table.style.marginBottom = "20px";
+	
+			// To generate table rows and columns
+			for (var i = 0; i < numRows; i++) {
+				var row = table.insertRow();
+				row.setAttribute("id", "row" + i);
+				for (var j = 0; j < numCols; j++) {
+					var cell = row.insertCell();
+					addCellStyle(cell);
+					cell.textContent = "Cell " + i + ", " + j;
+				}
+			}
+	
+			// Clear content and append table with buttons
+			document.body.innerHTML = "";
+			document.body.appendChild(table);
+			addColButton.style.marginRight = "10px";
+			document.body.appendChild(addColButton);
+			document.body.appendChild(addRowButton);
 		}
-
-		th, td {
-			border: 1px solid black;
-			padding: 8px;
+	
+		function addRow() {
+			var table = document.getElementById("dynamicTable");
+			var row = table.insertRow();
+			row.setAttribute("id", "row" + numRows);
+			for (var i = 0; i < numCols; i++) {
+				var cell = row.insertCell();
+				addCellStyle(cell);
+				cell.textContent = "Cell " + numRows + ", " + i;
+			}
+			numRows++;
 		}
-
-	</style>
-    <link rel="stylesheet" type="text/css" href="styles.css"> <!-- Link to external CSS file -->
-</head>
-<body>
-    <font size="8" color="green">Final test lab</font><br><br>
-    Number of rows: <input type="text" id="rows" /><br><br>
-    Number of cols: <input type="text" id="cols" /><br><br>
-
-    <button id="b1">Generate Table</button><br><br>
-
-    <button id="b2">Add Column</button>
-    <button id="b3">Add Row</button>
-
-    <script src="script.js"></script> <!-- Link to external JavaScript file -->
-</body>
+	
+		function addColumn() {
+			for (var i = 0; i < numRows; i++) {
+				var row = document.getElementById("row" + i);
+				if (row) {
+					var cell = row.insertCell();
+					addCellStyle(cell);
+					cell.textContent = "Cell " + i + ", " + numCols;
+				}
+			}
+			numCols++;
+		}
+	
+		function addCellStyle(cell) {
+			cell.style.border = "2px solid gray";
+			cell.style.backgroundColor = "#dddddd";
+			cell.style.padding = "8px 25px";
+		}
+	
+	</script>
+	
+	
 </html>
